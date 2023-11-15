@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    color: #fff;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    box-shadow: none;
+    border: 0;
+    background-color: transparent;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: none;
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: oklch(var(--p));
+    border: solid 1px oklch(var(--p));
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: oklch(var(--s));
+}
