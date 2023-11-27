@@ -1,10 +1,11 @@
-import { Box, KeyboardControls, OrbitControls } from '@react-three/drei';
+import { KeyboardControls, OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import { Physics, RigidBody } from '@react-three/rapier';
+import { Physics } from '@react-three/rapier';
 import { useControls } from 'leva';
 import { useMemo } from 'react';
 import Layout from '../layout/layout';
 import Ball from './components/Ball';
+import Ground from './components/Ground';
 
 export const Controls = {
     forward: 'forward',
@@ -28,11 +29,6 @@ const Game = () => {
         { name: Controls.right, keys: ['ArrowRight', 'KeyD'] },
         { name: Controls.jump, keys: ['Space'] },
     ], []);
-    const groundSize = {
-        width: 50,
-        height: 6,
-        depth: 2
-    };
 
     return (
         <Layout>
@@ -43,29 +39,15 @@ const Game = () => {
                         <color attach='background' args={[color.value]} />
                         <gridHelper />
                         {/* <axesHelper args={[20]} /> */}
-
                         <ambientLight />
                         <Physics debug gravity={[0, -9.8, 0]} >
                             <Ball isPlayer position={[0, 2, 0]} />
 
                             {/* <Ball position={[20, 19, 0]} /> */}
 
-                            <RigidBody name='ground' type='fixed' ccd={true} friction={2}>
-                                <Box args={[groundSize.width, groundSize.height, groundSize.depth]} position={[0, -groundSize.height / 2, 0]}>
-                                    <meshStandardMaterial color={'red'} />
-                                </Box>
-                            </RigidBody>
+                            <Ground />
 
-                            <RigidBody name='ground' type='fixed' ccd={true} friction={2}>
-                                <Box args={[groundSize.height, groundSize.width, groundSize.depth]} position={[groundSize.width / 2 + groundSize.height / 2, groundSize.width / 2, 0]}>
-                                    <meshStandardMaterial color={'red'} />
-                                </Box>
-                            </RigidBody>
-                            <RigidBody name='ground' type='fixed' ccd={true} friction={2}>
-                                <Box args={[groundSize.height, groundSize.width, groundSize.depth]} position={[-groundSize.width / 2 - groundSize.height / 2, groundSize.width / 2, 0]}>
-                                    <meshStandardMaterial color={'red'} />
-                                </Box>
-                            </RigidBody>
+                            {/* <Truss1 /> */}
                         </Physics>
                     </Canvas>
                 </div>
