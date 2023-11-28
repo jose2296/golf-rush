@@ -80,8 +80,6 @@ const Ball = ({ isPlayer, type = 'dynamic', color = '#dd3beb', ...props }: a) =>
     const maxPlaneWidth = 8;
     const lineWidth = 5;
 
-    const a = useRef();
-
     const power = useRef<number>(0);
     const isCharing = useRef<boolean>(false);
     const lineRef = useRef(null);
@@ -115,13 +113,14 @@ const Ball = ({ isPlayer, type = 'dynamic', color = '#dd3beb', ...props }: a) =>
             if (curVel) {
                 vel.y = curVel.y;
                 vel.x = curVel.x;
+                vel.z = 0;
             }
             ball.current?.setLinvel(vel, true);
 
             if (ball.current && planeRef.current && lineRef.current) {
                 const {x, y} = ball.current.worldCom();
-                planeRef.current?.position.set(x - maxPlaneWidth / 2, y - 4 , 2);
-                planeRef2.current?.position.set(x - maxPlaneWidth / 2, y - 3.9 , 2.001);
+                planeRef.current?.position.set(x - maxPlaneWidth / 2, y - 4 , 5);
+                planeRef2.current?.position.set(x - maxPlaneWidth / 2, y - 3.9 , 5.001);
 
                 const points = [[x, y, 0], [Math.cos(ballDirectionDegrees * Math.PI / 180) * lineWidth + x, Math.sin(ballDirectionDegrees * Math.PI / 180) * lineWidth + y, 0]];
                 // lineRef.current.geometry.setFromPoints(points);

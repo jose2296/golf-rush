@@ -6,6 +6,8 @@ import { useMemo } from 'react';
 import Layout from '../layout/layout';
 import Ball from './components/Ball';
 import Ground from './components/Ground';
+import Truss1 from './components/test';
+import { RigidBody } from '@react-three/rapier';
 
 export const Controls = {
     forward: 'forward',
@@ -37,21 +39,21 @@ const Game = () => {
                     <Canvas style={{ width, height }} camera={{ position: [ 0, 0, 55] }}>
                         <OrbitControls />
                         <color attach='background' args={[color.value]} />
-                        <gridHelper />
+                       <gridHelper />
                         {/* <axesHelper args={[20]} /> */}
                         <ambientLight />
                         <Physics debug gravity={[0, -9.8, 0]} >
                             <Ball isPlayer position={[0, 2, 0]} />
 
-                            {/* <Ball position={[20, 19, 0]} /> */}
+                            <Ball position={[1, 19, 0]} />
+ 
+                            {/* <Ground /> */}
 
-                            <Ground />
-
-                            {/* <Truss1 /> */}
+                            <Truss1 />
                         </Physics>
                     </Canvas>
                 </div>
-
+            
             </KeyboardControls>
 
         </Layout>

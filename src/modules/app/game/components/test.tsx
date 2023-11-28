@@ -1,4 +1,6 @@
+import { Extrude } from '@react-three/drei';
 import { DoubleSide, Shape as ThreeShape } from 'three';
+import { RigidBody } from '@react-three/rapier';
 
 const Truss1 = () => {
     const x = -5, y = -10;
@@ -13,11 +15,19 @@ const Truss1 = () => {
     heartShape.bezierCurveTo(x + 16, y + 7, x + 16, y, x + 10, y);
     heartShape.bezierCurveTo(x + 7, y, x + 5, y + 5, x + 5, y + 5);
 
+
     return (
-        <mesh scale={[.1, .1, .1]}>
-            <shapeGeometry args={[heartShape]} />
-            <meshStandardMaterial color='orange' side={DoubleSide} />
-        </mesh>
+        <RigidBody name='shape' type='fixed' colliders='trimesh' ccd={true} friction={2}>
+
+            <Extrude position={[0,0,-5]} args={[heartShape, { depth: 20 }]}>
+                {/* <shapeGeometry args={[heartShape]} /> */}
+            </Extrude>   
+        </RigidBody>
+
+        // <mesh scale={[.1, .1, .1]}>
+        //     <shapeGeometry args={[heartShape]} />
+        //     <meshStandardMaterial color='orange' side={DoubleSide} />
+        // </mesh>
     );
 };
 
