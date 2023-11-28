@@ -7,7 +7,6 @@ import Layout from '../layout/layout';
 import Ball from './components/Ball';
 import Ground from './components/Ground';
 import Truss1 from './components/test';
-import { RigidBody } from '@react-three/rapier';
 
 export const Controls = {
     forward: 'forward',
@@ -23,13 +22,14 @@ const height = 758;
 const Game = () => {
     const color = useControls('canvas', {
         value: '#000000',
+        debug: true
     });
     const mapControls = useMemo(() => [
         { name: Controls.forward, keys: ['ArrowUp', 'KeyW'] },
         { name: Controls.back, keys: ['ArrowDown', 'KeyS'] },
         { name: Controls.left, keys: ['ArrowLeft', 'KeyA'] },
         { name: Controls.right, keys: ['ArrowRight', 'KeyD'] },
-        { name: Controls.jump, keys: ['Space'] },
+        { name: Controls.jump, keys: ['Space', ['KeyJ']] },
     ], []);
 
     return (
@@ -39,17 +39,15 @@ const Game = () => {
                     <Canvas style={{ width, height }} camera={{ position: [ 0, 0, 55] }}>
                         <OrbitControls />
                         <color attach='background' args={[color.value]} />
-                       <gridHelper />
+                        <gridHelper />
                         {/* <axesHelper args={[20]} /> */}
                         <ambientLight />
-                        <Physics debug gravity={[0, -9.8, 0]} >
-                            <Ball isPlayer position={[0, 2, 0]} />
+                        <Physics debug={color.debug} gravity={[0, -9.8, 0]} >
+                            <Ball isPlayer position={[-10, 20, 0]} />
 
                             <Ball position={[1, 19, 0]} />
  
-                            {/* <Ground /> */}
-
-                            <Truss1 />
+                            <Ground />
                         </Physics>
                     </Canvas>
                 </div>
