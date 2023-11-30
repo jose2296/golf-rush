@@ -1,52 +1,11 @@
 import { Line, Sphere, Trail, useKeyboardControls } from '@react-three/drei';
 import { MeshProps, useFrame } from '@react-three/fiber';
-import { CollisionEnterPayload, CollisionExitPayload, RapierRigidBody, RigidBody } from '@react-three/rapier';
+import { CollisionEnterPayload, CollisionExitPayload, RapierRigidBody, RigidBody, interactionGroups } from '@react-three/rapier';
 import { ReactElement, forwardRef, useRef, useState } from 'react';
 import { Mesh, PlaneGeometry, Shape, ShapeGeometry, SphereGeometry, Vector2, Vector3 } from 'three';
 import { Controls } from '../game';
 
 type RoundedRectGeometryProps = MeshProps & { width: number, height: number, borderRadius?: number, children: ReactElement }
-
-
-function TrailScene() {
-    const group = useRef<Mesh>(null!);
-    const sphere = useRef<Mesh>(null!);
-    useFrame(({ clock }) => {
-        const t = clock.getElapsedTime();
-
-        // group.current.rotation.z = t;
-
-        sphere.current.position.x = Math.sin(t * 2) * 2;
-        sphere.current.position.z = Math.cos(t * 2) * 2;
-    });
-
-    return (
-        <>
-            <group ref={group}>
-                <Trail
-                    width={1}
-                    length={4}
-                    color={'#F8D628'}
-                    attenuation={(t: number) => {
-                        return t * t;
-                    }}
-                >
-                    <Sphere ref={sphere} args={[0.1, 32, 32]} position-y={3}>
-                        <meshNormalMaterial />
-                    </Sphere>
-                </Trail>
-            </group>
-
-            <axesHelper />
-        </>
-    );
-}
-
-
-
-
-
-
 
 const RoundedRectGeometry = forwardRef<Mesh, RoundedRectGeometryProps>(({ width, height, borderRadius = height / 2, children, ...props }, ref) => {
     const shape = new Shape([new Vector2(5,0)]);
@@ -65,9 +24,9 @@ const RoundedRectGeometry = forwardRef<Mesh, RoundedRectGeometryProps>(({ width,
     );
 });
 
-type a = MeshProps & { isPlayer?: boolean, type?: 'fixed' | 'dynamic', color?: string }
+type BallProps = MeshProps & { isPlayer?: boolean, type?: 'fixed' | 'dynamic', color?: string }
 
-const Ball = ({ isPlayer, type = 'dynamic', color = '#dd3beb', ...props }: a) => {
+const Ball = ({ isPlayer, type = 'dynamic', color = '#dd3beb', ...props }: BallProps) => {
     const [, get] = isPlayer ? useKeyboardControls() : [];
     const MOVEMENT_SPEED = 0.1;
     const vel = new Vector3();
@@ -173,7 +132,7 @@ const Ball = ({ isPlayer, type = 'dynamic', color = '#dd3beb', ...props }: a) =>
 
     return (
         <>
-            <RigidBody ref={ball} type={type} restitution={1} friction={20} ccd={true} colliders={'ball'} onCollisionEnter={onCollisionEnter} onCollisionExit={onCollisionExit}>
+            <RigidBody collisionGroups={interactionGroups(1, [0])} ref={ball} type={type} restitution={1} friction={20} ccd={true} colliders={'ball'} onCollisionEnter={onCollisionEnter} onCollisionExit={onCollisionExit}>
                 <Trail
                     width={2}
                     length={6}

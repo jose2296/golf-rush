@@ -1,0 +1,26 @@
+{
+    "translation": {
+        "back": "Atrás",
+        "settings": "Configuración",
+        "contact": "Contacto",
+        "logout": "Cerrar sesión",
+        "login": {
+            "login": "Acceder",
+            "email": "Correo electrónico",
+            "password": "Contraseña",
+            "invalid_login_credentials": "Credenciales incorrectas"
+        },
+        "home": {
+            "customize": "Personalizar",
+            "play": "Jugar",
+            "profile": "Perfil",
+            "shop": "Tienda"
+        },
+        "customize": {
+            "practice": "Practicar",
+            "stelas": "Estelas",
+            "accessories": "Accesorios",
+            "coming_soon": "Próximamente"
+        }
+    }
+}

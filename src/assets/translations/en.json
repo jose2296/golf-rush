@@ -1,0 +1,27 @@
+{
+    "translation": {
+        "back": "Back",
+        "settings": "Settings",
+        "contact": "Contact",
+        "logout": "Logout",
+        "login": {
+            "login": "Login",
+            "email": "Email",
+            "password": "Password",
+            "invalid_login_credentials": "Invalid credentials"
+        },
+        "home": {
+            "customize": "Customize",
+            "play": "Play",
+            "profile": "Profile",
+            "shop": "Shop"
+        },
+        "customize": {
+            "practice": "Practice",
+            "colors": "Colors",
+            "stelas": "Stelas",
+            "accessories": "Accessories",
+            "coming_soon": "Coming soon"
+        }
+    }
+}

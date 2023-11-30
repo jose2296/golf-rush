@@ -1,4 +1,5 @@
 import { HTMLAttributes, ReactElement } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface props {
     type?: 'normal' | 'btn-primary' | 'btn-secondary' | 'btn-accent' | 'btn-neutral' | 'btn-ghost' | 'btn-link';
@@ -7,18 +8,22 @@ interface props {
     className?: HTMLAttributes<HTMLElement>['className'];
     icon?: ReactElement;
     linksTo?: string;
-    click?: () => void
+    click?: () => void;
+    loading?: boolean;
 }
 
-const Button = ({ type = 'btn-secondary', text, className, icon, click }: props) => {
+const Button = ({ type = 'btn-secondary', text, className, icon, click, loading }: props) => {
+    const { t } = useTranslation();
+
     return (
         <button onClick={click} className={`btn ${type === 'normal' ? '' : type} ${className || ''}`}>
-            {text}
+            {t(text)}
             {icon && (
                 <div className='icon w-4 ml-1'>
                     {icon}
                 </div>
             )}
+            {loading && <span className='loading loading-spinner' />}
         </button>
     );
 };

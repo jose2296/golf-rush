@@ -14,15 +14,19 @@
     "@react-three/fiber": "^8.15.11",
     "@react-three/rapier": "^1.1.2",
     "firebase": "^10.5.2",
+    "i18next": "^23.7.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.48.2",
+    "react-i18next": "^13.5.0",
     "react-router-dom": "^6.17.0",
-    "three": "^0.158.0"
+    "three": "^0.158.0",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
-    "@types/three": "^0.158.3",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
+    "@types/three": "^0.158.3",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
     "@vitejs/plugin-react": "^4.0.3",

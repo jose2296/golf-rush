@@ -1,11 +1,14 @@
 import { Canvas } from '@react-three/fiber';
 import { Physics } from '@react-three/rapier';
 import Button from '@shared/components/button';
+import useStore from '@store';
 import Target from '@svgs/target';
+import { getApp } from 'firebase/app';
+import { doc, getFirestore, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Ball from '../game/components/Ball';
-import Layout from '../layout/layout';
 
 const items = [
     [
@@ -62,10 +65,13 @@ const items = [
         { id: 15, name: 'Color15', value: '#E55934' }
     ]
 ];
+
 const Customize = () => {
+    const userData = useStore(state => state.userData);
     const navigate = useNavigate();
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [currentColorSelected, setCurrentColorSelected] = useState(items[0][0]);
+    const [currentColorSelected, setCurrentColorSelected] = useState(items[0].find(item => item.value === userData?.color) ?? items[0][0]);
+    const { t } = useTranslation();
 
     const tabs = [
         'colors',
@@ -73,75 +79,83 @@ const Customize = () => {
         'accessories',
     ];
 
+    const handleChangeColor = (color: typeof items[0][0]) => {
+        const db = getFirestore(getApp());
+        const users = doc(db, `/users/${userData?.uid}`);
+
+        setCurrentColorSelected(color);
+        setDoc(users, {
+            color: color.value
+        }, { merge: true });
+    };
 
     return (
-        <Layout>
-            <>
-                <div className='back'>
-                    <Button text='Back' type='btn-link' click={() => navigate('/')} />
-                </div>
-                <div className='grid gap-x-20 grid-cols-1 md:grid-cols-2'>
-                    <div className='flex items-center justify-center flex-col'>
-                        <div className='w-full h-96 rounded-xl border-2 border-secondary'>
-                            <Canvas style={{ width: '100%', height: '100%' }} camera={{ position: [ 0, 1, 6] }}>
-                                <ambientLight />
-                                <Physics gravity={[0, 0, 0]} >
-                                    <Ball type='fixed' color={currentColorSelected.value} position={[0, 0, 0]} />
+        <div className='flex flex-col justify-between'>
+            <div className=''>
+                <Button text='back' type='btn-link' click={() => navigate('/app')} />
+            </div>
+            <div className='grid gap-x-20 lg:gap-y-20 grid-cols-1 lg:grid-cols-2 flex-1'>
+                <div className='flex items-center justify-center flex-col'>
+                    <div className='w-full h-96 rounded-xl border-2 border-secondary'>
+                        <Canvas style={{ width: '100%', height: '100%' }} camera={{ position: [ 0, 1, 6] }}>
+                            <ambientLight />
+                            <Physics gravity={[0, 0, 0]} >
+                                <Ball type='fixed' color={currentColorSelected.value} position={[0, 0, 0]} />
 
-                                </Physics>
+                            </Physics>
 
-                            </Canvas>
-                        </div>
-                        <Button
-                            type='btn-neutral'
-                            text='practice'
-                            className='mt-5 px-20'
-                            // click={() => navigate('/practice')}
-                            icon={<Target fill='white' />}
-                        />
+                        </Canvas>
                     </div>
-                    <div className='flex items-center justify-center'>
-                        <div className='w-full h-[600px] rounded-xl border-2 border-secondary flex flex-col overflow-hidden'>
-                            <div className='flex p-0 border-b-2 border-secondary'>
-                                {tabs && tabs.map((tab, index) => (
-                                    <button
-                                        key={`tab-${index}`}
-                                        className={`flex-1 text-center border-secondary p-2 h-12 rounded-none text-[1.1rem] disabled:cursor-not-allowed disabled:opacity-50 ${index > 0 ? 'border-l-2' : ''} ${index === currentIndex ? 'bg-primary text-primary-content' : ''}`}
-                                        disabled={index > 0}
-                                        onClick={() => setCurrentIndex(index)}
-                                    >
-                                        {tab}
-                                    </button>
-                                ))}
-                            </div>
+                    <Button
+                        type='btn-neutral'
+                        text='customize.practice'
+                        className='mt-5 px-20'
+                        // click={() => navigate('/practice')}
+                        icon={<Target fill='white' />}
+                    />
+                </div>
+                <div className='flex items-center justify-center'>
+                    <div className='w-full h-[600px] rounded-xl border-2 border-secondary flex flex-col overflow-hidden'>
+                        <div className='flex p-0 border-b-2 border-secondary'>
+                            {tabs && tabs.map((tab, index) => (
+                                <button
+                                    key={`tab-${index}`}
+                                    className={`flex-1 tooltip tooltip-bottom text-center border-secondary p-2 h-12 rounded-none text-[1.1rem] disabled:cursor-not-allowed disabled:opacity-50 ${index > 0 ? 'border-l-2' : ''} ${index === currentIndex ? 'bg-primary text-primary-content' : ''}`}
+                                    disabled={index > 0}
+                                    data-tip={t(`customize.${index > 0 ? 'coming_soon' : tab}`)}
+                                    onClick={() => setCurrentIndex(index)}
+                                >
+                                    {t(`customize.${tab}`)}
+                                </button>
+                            ))}
+                        </div>
 
-                            <div className='grid grid-cols-4 gap-4 p-4 h-full overflow-y-scroll'>
-                                {items?.[currentIndex] && items[currentIndex].map(item => (
-                                    <button key={`item-${item.name}`} className='group text-center w-20 grid gap-1 ' onClick={() => setCurrentColorSelected(item)}>
-                                        {currentIndex === 0 &&
+                        <div className='grid grid-cols-4 gap-4 p-4 h-full overflow-y-scroll'>
+                            {items?.[currentIndex] && items[currentIndex].map(item => (
+                                <button ref={el => currentColorSelected.id === item.id ? el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }) : null} key={`item-${item.name}`} className='group text-center w-20 grid gap-1' onClick={() => handleChangeColor(item)}>
+                                    {currentIndex === 0 &&
                                         <div className={`h-20 border-2 border-primary rounded-lg flex justify-center items-center group-hover:bg-secondary transition duration-[600ms] ${currentColorSelected.id === item.id ? '!bg-primary' : ''}`}>
                                             <div style={{ backgroundColor: item.value }} className={'w-10 h-10 rounded-full '} />
                                         </div>
-                                        }
+                                    }
 
-                                        {
-                                            currentIndex === 1 && <div className='w-20 h-20 border-2 border-primary'>{item.value}</div>
-                                        }
+                                    {
+                                        currentIndex === 1 && <div className='w-20 h-20 border-2 border-primary'>{item.value}</div>
+                                    }
 
-                                        {
-                                            currentIndex === 2 && <div className='w-20 h-20 border-2 border-primary'>{item.value}</div>
+                                    {
+                                        currentIndex === 2 && <div className='w-20 h-20 border-2 border-primary'>{item.value}</div>
 
-                                        }
-                                        <span className={`${currentColorSelected.id === item.id ? 'font-bold' : ''}`}>{item.name}</span>
+                                    }
+                                    <span className={`${currentColorSelected.id === item.id ? 'font-bold' : ''}`}>{item.name}</span>
 
-                                    </button>
-                                ))}
-                            </div>
+                                </button>
+                            ))}
                         </div>
                     </div>
                 </div>
-            </>
-        </Layout>
+            </div>
+        </div>
     );
 };
 

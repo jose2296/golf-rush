@@ -1,12 +1,12 @@
 import { Extrude } from '@react-three/drei';
-import { DoubleSide, Shape as ThreeShape } from 'three';
 import { RigidBody } from '@react-three/rapier';
+import { DoubleSide, Shape as ThreeShape } from 'three';
 
 const Truss1 = () => {
     // const x = -5, y = -10;
 
     // const heartShape = new ThreeShape();
-    
+
     // heartShape.moveTo(x + 5, y + 5);
     // heartShape.bezierCurveTo(x + 5, y + 5, x + 4, y, x, y);
     // heartShape.bezierCurveTo(x - 6, y, x - 6, y + 7,x - 6, y + 7);
@@ -19,7 +19,7 @@ const Truss1 = () => {
     const y = 0;
     const heartShape = new ThreeShape();
     heartShape.moveTo(x, y);
-    heartShape.lineTo(x+ 5, y);
+    heartShape.lineTo(x + 5, y);
     heartShape.lineTo(x + 5, y - 5);
     heartShape.lineTo(x + 10, y - 5);
     heartShape.lineTo(x + 10, y);
@@ -28,7 +28,7 @@ const Truss1 = () => {
     heartShape.lineTo(x - 50, y - 15);
     heartShape.lineTo(x - 50, y);
     heartShape.lineTo(x, y);
-    
+
     // heartShape.bezierCurveTo(x, y, x, y, x, y);
     // heartShape.bezierCurveTo(x + 5, y, x + 5, y, x + 5, y);
     // heartShape.bezierCurveTo(x + 5, y, x + 5, y - 5, x, y);
@@ -38,13 +38,13 @@ const Truss1 = () => {
             <Extrude position={[0,0,-5]} args={[heartShape, { depth: 20 }]}>
                 {/* <shapeGeometry args={[heartShape]} /> */}
                 <meshStandardMaterial color='red' side={DoubleSide} />
-            </Extrude>   
+            </Extrude>
         </RigidBody>
 
-        // <mesh scale={[.1, .1, .1]}>
-        //     <shapeGeometry args={[heartShape]} />
-        //     <meshStandardMaterial color='orange' side={DoubleSide} />
-        // </mesh>
+    // <mesh scale={[.1, .1, .1]}>
+    //     <shapeGeometry args={[heartShape]} />
+    //     <meshStandardMaterial color='orange' side={DoubleSide} />
+    // </mesh>
     );
 };
 

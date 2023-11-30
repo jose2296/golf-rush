@@ -20,6 +20,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
+      "@store": ["./src/core/store"],
+      "@assets/*": ["./src/assets/*"],
       "@svgs/*": ["./src/assets/svgs/*"],
       "@modules/*": ["./src/modules/*"],
       "@shared/*": ["./src/shared/*"]
