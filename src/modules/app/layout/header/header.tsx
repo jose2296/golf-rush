@@ -21,7 +21,7 @@ const Header = () => {
     };
     return (
         <header className='bg-base-100 flex items-center h-16 px-10 py-5'>
-            <h1 className='text-3xl font-bold flex-1'>Golf Rush</h1>
+            <h1 onClick={() => navigate('')} className='text-3xl font-bold flex-1 cursor-pointer'>Golf Rush</h1>
 
             {/* <div className='flex gap-4 justify-center flex-row'>
                 <Money count={coins} icon={<Coin stroke='white' strokeWidth={4} className='w-5 ml-2' />} />

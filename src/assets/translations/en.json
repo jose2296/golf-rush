@@ -4,6 +4,9 @@
         "settings": "Settings",
         "contact": "Contact",
         "logout": "Logout",
+        "validations": {
+            "required_field": "Required field"
+        },
         "login": {
             "login": "Login",
             "email": "Email",

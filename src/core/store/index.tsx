@@ -4,6 +4,7 @@ export interface SetUserData {
     name: string;
     surname: string;
     color: string;
+    stela: string;
 }
 
 interface State {
@@ -12,6 +13,7 @@ interface State {
         name?: string;
         surname?: string;
         color?: string;
+        stela?: string;
     } | null;
     setUserUid: (uid: string) => void;
     setUserData: (userData: SetUserData) => void;

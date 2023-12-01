@@ -20,6 +20,7 @@ const height = 758;
 
 const Game = () => {
     const ballColor = useStore(state => state.userData?.color);
+    const ballStela = useStore(state => state.userData?.stela);
     const color = useControls('canvas', {
         value: '#000000',
         debug: true
@@ -42,7 +43,7 @@ const Game = () => {
                     {/* <axesHelper args={[20]} /> */}
                     <ambientLight />
                     <Physics debug={color.debug} gravity={[0, -9.8, 0]} >
-                        <Ball isPlayer position={[-10, 20, 0]} color={ballColor} />
+                        <Ball isPlayer position={[-10, 20, 0]} color={ballColor} stela={ballStela} />
 
                         <Ball position={[1, 19, 0]} />
 

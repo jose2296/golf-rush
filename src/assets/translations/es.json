@@ -4,6 +4,9 @@
         "settings": "Configuración",
         "contact": "Contacto",
         "logout": "Cerrar sesión",
+        "validations": {
+            "required_field": "Campo requredido"
+        },
         "login": {
             "login": "Acceder",
             "email": "Correo electrónico",

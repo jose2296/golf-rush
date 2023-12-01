@@ -24,9 +24,9 @@ const RoundedRectGeometry = forwardRef<Mesh, RoundedRectGeometryProps>(({ width,
     );
 });
 
-type BallProps = MeshProps & { isPlayer?: boolean, type?: 'fixed' | 'dynamic', color?: string }
+type BallProps = MeshProps & { isPlayer?: boolean, type?: 'fixed' | 'dynamic', color?: string, stela?: string }
 
-const Ball = ({ isPlayer, type = 'dynamic', color = '#dd3beb', ...props }: BallProps) => {
+const Ball = forwardRef<any, BallProps>(({ isPlayer, type = 'dynamic', color = '#dd3beb', stela, ...props }, ballRef) => {
     const [, get] = isPlayer ? useKeyboardControls() : [];
     const MOVEMENT_SPEED = 0.1;
     const vel = new Vector3();
@@ -132,19 +132,24 @@ const Ball = ({ isPlayer, type = 'dynamic', color = '#dd3beb', ...props }: BallP
 
     return (
         <>
-            <RigidBody collisionGroups={interactionGroups(1, [0])} ref={ball} type={type} restitution={1} friction={20} ccd={true} colliders={'ball'} onCollisionEnter={onCollisionEnter} onCollisionExit={onCollisionExit}>
-                <Trail
-                    width={2}
-                    length={6}
-                    color={color}
-                    attenuation={(t: number) => {
-                        return t * 10;
-                    }}
-                >
+            <RigidBody collisionGroups={interactionGroups(1, [0])} ref={ballRef} type={type} restitution={1} friction={20} ccd={true} colliders={'ball'} onCollisionEnter={onCollisionEnter} onCollisionExit={onCollisionExit}>
+                {stela && stela === 'basic' &&
+                    <Trail
+                        width={2}
+                        length={6}
+                        color={color}
+                        attenuation={(t: number) => t * 10}
+                    >
+                        <Sphere visible={true} ref={sphereBall} {...props} args={[2]}>
+                            <meshStandardMaterial color={color} />
+                        </Sphere>
+                    </Trail>
+                }
+                {(!stela || stela === 'none') &&
                     <Sphere visible={true} ref={sphereBall} {...props} args={[2]}>
                         <meshStandardMaterial color={color} />
                     </Sphere>
-                </Trail>
+                }
             </RigidBody>
 
 
@@ -165,6 +170,6 @@ const Ball = ({ isPlayer, type = 'dynamic', color = '#dd3beb', ...props }: BallP
             }
         </>
     );
-};
+});
 
 export default Ball;

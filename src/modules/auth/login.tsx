@@ -13,7 +13,7 @@ interface FormFields {
 }
 
 const Login = () => {
-    const { register, handleSubmit } = useForm<FormFields>();
+    const { register, handleSubmit, formState: { errors } } = useForm<FormFields>();
 
     const setUserUid = useStore((state) => state.setUserUid);
     const navigate = useNavigate();
@@ -51,8 +51,8 @@ const Login = () => {
     return (
         <div className='flex justify-center'>
             <form onSubmit={handleSubmit(signIn)} className='flex flex-col max-w-sm items-center justify-center h-[100vh] '>
-                <Input placeholder='login.email' register={register('email')} />
-                <Input type='password' placeholder='login.password' register={register('password')} />
+                <Input placeholder='login.email' register={register('email', { required: true })} errors={errors.email} />
+                <Input type='password' placeholder='login.password' register={register('password', { required: true })} errors={errors.password} />
                 <Button text='login.login' type='btn-primary' loading={loading} />
 
                 {errorMessage &&
