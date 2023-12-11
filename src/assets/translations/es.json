@@ -8,6 +8,7 @@
             "required_field": "Campo requredido"
         },
         "login": {
+            "title": "Inciar sesión",
             "login": "Acceder",
             "email": "Correo electrónico",
             "password": "Contraseña",

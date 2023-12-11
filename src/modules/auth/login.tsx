@@ -50,15 +50,18 @@ const Login = () => {
 
     return (
         <div className='flex justify-center'>
-            <form onSubmit={handleSubmit(signIn)} className='flex flex-col max-w-sm items-center justify-center h-[100vh] '>
-                <Input placeholder='login.email' register={register('email', { required: true })} errors={errors.email} />
-                <Input type='password' placeholder='login.password' register={register('password', { required: true })} errors={errors.password} />
-                <Button text='login.login' type='btn-primary' loading={loading} />
+            <div className='h-[100vh] flex flex-col max-w-sm items-center justify-center'>
+                <form onSubmit={handleSubmit(signIn)} className='flex flex-col max-w-sm items-center justify-center rounded-xl border-2 p-12 border-primary  prose'>
+                    <h1>{t('login.title')}</h1>
+                    <Input placeholder='login.email' register={register('email', { required: true })} errors={errors.email} />
+                    <Input type='password' placeholder='login.password' register={register('password', { required: true })} errors={errors.password} />
+                    <Button text='login.login' type='btn-primary' loading={loading} />
 
-                {errorMessage &&
-                    <span className='text-error mt-4'>{t(errorMessage)}</span>
-                }
-            </form>
+                    {errorMessage &&
+                        <span className='text-error mt-4'>{t(errorMessage)}</span>
+                    }
+                </form>
+            </div>
         </div>
 
     );

@@ -8,6 +8,7 @@
             "required_field": "Required field"
         },
         "login": {
+            "title": "Sign in",
             "login": "Login",
             "email": "Email",
             "password": "Password",
